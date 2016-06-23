@@ -25,7 +25,6 @@ class LbmDoneXBlock(XBlock):
         data = pkg_resources.resource_string(__name__, path)
         return data.decode("utf8")
 
-    # TO-DO: change this view to display your data your own way.
     def student_view(self, context=None):
         """
         The primary view of the LbmDoneXBlock, shown to students
@@ -45,8 +44,6 @@ class LbmDoneXBlock(XBlock):
 
         return frag
 
-    # TO-DO: change this handler to perform your own actions.  You may need more
-    # than one handler, or you may not need any handlers at all.
     @XBlock.json_handler
     def toggle_button(self, data, suffix=''):
         """
@@ -54,10 +51,10 @@ class LbmDoneXBlock(XBlock):
         with one boolean field: `done`. This will save this in the
         XBlock field, and then issue an appropriate grade. 
         """
-        self.done = data['done']
+        self.done = False if self.done else True
         grade = 1 if self.done else 0
 
-        self.runtime.publish(self, {'value': grade, 'max_value': 1})
+        self.runtime.publish(self, 'grade', {'value': grade, 'max_value': 1})
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
