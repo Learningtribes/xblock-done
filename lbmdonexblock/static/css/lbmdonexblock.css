@@ -1,0 +1,29 @@
+/* CSS for LbmDoneXBlock */
+
+.lbmdonexblock_block {
+	display: inline;
+	font-family: inherit;
+	border: 0 none;
+	border-radius: 4px;
+	background-color: rgb(231, 76, 60);
+}
+
+.lbmdonexblock_block.done {
+	background-color: rgb(221, 221, 221);
+}
+
+.lbmdonexblock_block input[type="checkbox"] {
+	display: none;
+}
+
+.lbmdonexblock_block label.not_done:before {
+	font-family: "FontAwesome";
+	content: "f046";
+}
+
+.lbmdonexblock_block label.done:before {
+	font-family: "FontAwesome";
+	content: "f096";
+}
+
+
