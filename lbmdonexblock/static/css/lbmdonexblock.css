@@ -1,10 +1,10 @@
 /* CSS for LbmDoneXBlock */
 div.xblock.xblock-student_view-lbmdonexblock {
-	border-bottom: 0 none;
 	text-align: center;
 	margin-top: 1em;
-	margin-bottom: 0;
-	padding-bottom: 0;
+	margin-bottom: 0 !important;
+	padding-bottom: 0 !important;
+	border-bottom: 0 none !important;
 }
 
 .lbmdonexblock_block {
@@ -42,5 +42,6 @@ div.xblock.xblock-student_view-lbmdonexblock {
 	font-size: 0.95rem;
 	text-shadow: none;
 	margin-left: 15px;
+	color: #fff;
 }
 
