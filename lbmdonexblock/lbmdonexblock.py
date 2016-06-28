@@ -20,6 +20,8 @@ class LbmDoneXBlock(XBlock):
 
     has_score = True
 
+    icon_class = "other"
+
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
         data = pkg_resources.resource_string(__name__, path)
@@ -49,7 +51,7 @@ class LbmDoneXBlock(XBlock):
         """
         Ajax call when the button is clicked. Input is a JSON dictionary
         with one boolean field: `done`. This will save this in the
-        XBlock field, and then issue an appropriate grade. 
+        XBlock field, and then issue an appropriate grade.
         """
         self.done = False if self.done else True
         grade = 1 if self.done else 0
