@@ -5,6 +5,7 @@ import pkg_resources
 from xblock.core import XBlock
 from xblock.fields import Scope, Boolean
 from xblock.fragment import Fragment
+from django.utils.translation import ugettext as _
 
 
 class LbmDoneXBlock(XBlock):
@@ -21,6 +22,8 @@ class LbmDoneXBlock(XBlock):
     has_score = True
 
     icon_class = "other"
+
+    button_text = _("Lesson completed")
 
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
@@ -58,7 +61,7 @@ class LbmDoneXBlock(XBlock):
 
         self.runtime.publish(self, 'grade', {'value': grade, 'max_value': 1})
 
-    # TO-DO: change this to create the scenarios you'd like to see in the
+    # Change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
     @staticmethod
     def workbench_scenarios():
