@@ -16,7 +16,7 @@ class LbmDoneXBlock(XBlock):
     done = Boolean(
         scope = Scope.user_state,
         default = False,
-        help = "Is this sequence done?"
+        help = "Is this sequence done?",
     )
 
     has_score = True
@@ -24,6 +24,16 @@ class LbmDoneXBlock(XBlock):
     icon_class = "other"
 
     button_text = _("Lesson completed")
+
+    weight = Float(
+        scope=Scope.settings,
+        values={"min": 0, "step": .1},
+        display_name="Problem Weight",
+        help=("Defines the number of points each problem is worth. "
+              "If the value is not set, the problem is worth the sum of the "
+              "option point values."),
+    )
+
 
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
