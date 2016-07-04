@@ -3,7 +3,7 @@
 import pkg_resources
 
 from xblock.core import XBlock
-from xblock.fields import Scope, Boolean
+from xblock.fields import Scope, Boolean, Float
 from xblock.fragment import Fragment
 from django.utils.translation import ugettext as _
 
