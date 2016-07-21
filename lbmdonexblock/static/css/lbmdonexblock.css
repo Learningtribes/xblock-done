@@ -27,6 +27,7 @@ div.xblock.xblock-student_view-lbmdonexblock {
 
 .lbmdonexblock_block .fa {
 	vertical-align: text-bottom;
+	padding-right: 10px;
 }
 
 .visble {
@@ -41,7 +42,6 @@ div.xblock.xblock-student_view-lbmdonexblock {
 	font-family: inherit;
 	font-size: 0.95rem;
 	text-shadow: none;
-	margin-left: 15px;
 	color: #fff;
 }
 
