@@ -5,7 +5,7 @@ import pkg_resources
 from xblock.core import XBlock
 from xblock.fields import Scope, Boolean, Float
 from xblock.fragment import Fragment
-
+from django.utils.translation import ugettext as _
 
 class LbmDoneXBlock(XBlock):
     """
@@ -43,7 +43,7 @@ class LbmDoneXBlock(XBlock):
 
         # Load the HTML fragment from witin the package anf fill in the template
         html = self.resource_string("static/html/lbmdonexblock.html")
-        frag = Fragment(html.format(done=self.done, button_text=self.ugettext("Lesson completed")))
+        frag = Fragment(html.format(done=self.done, button_text=_("Lesson completed")))
 
         # Load the CSS fragment
         frag.add_css(self.resource_string("static/css/lbmdonexblock.css"))
