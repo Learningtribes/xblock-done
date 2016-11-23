@@ -12,21 +12,20 @@ class LbmDoneXBlock(XBlock):
     Shows a toggle which lets learners mark a sequence as done.
     """
 
+    # is this sequence done?
     done = Boolean(
         scope = Scope.user_state,
-        default = False,
-        help = "Is this sequence done?",
+        default = False
     )
 
     has_score = True
 
+    # Defines the number of points each problem is worth.
+    # By default, the problem is worth the sum of the option point values.
     weight = Float(
         scope=Scope.settings,
         values={"min": 0, "step": .1},
-        display_name="Problem Weight",
-        help=("Defines the number of points each problem is worth. "
-              "If the value is not set, the problem is worth the sum of the "
-              "option point values."),
+        display_name="Problem Weight"
     )
 
 
@@ -37,11 +36,10 @@ class LbmDoneXBlock(XBlock):
 
     def student_view(self, context=None):
         """
-        The primary view of the LbmDoneXBlock, shown to students
-        when viewing courses.
+        LMS view, displayed to the student
         """
 
-        # Load the HTML fragment from witin the package anf fill in the template
+        # Load the HTML fragment from within the package and fill in the template
         html = self.resource_string("static/html/lbmdonexblock.html")
         frag = Fragment(html.format(done=self.done, button_text=_("Lesson completed")))
 
@@ -53,6 +51,21 @@ class LbmDoneXBlock(XBlock):
         frag.initialize_js('LbmDoneXBlock', {'done': self.done})
 
         return frag
+
+    def studio_view(self, context=None):
+        """
+        Studio view accessed when the instructor edits the component
+        """
+
+        # Load the HTML fragment from within the package and fill in the template
+        html = self.resource_string("static/html/lbmdonexblock_edit.html")
+        frag = Fragment(html.format(no_edit_text=_("This XBlock has no editable field.")))
+
+        # Load the CSS fragment
+        frag.add_css(self.resource_string("static/css/lbmdonexblock.css"))
+
+        return frag
+
 
     @XBlock.json_handler
     def toggle_button(self, data, suffix=''):
