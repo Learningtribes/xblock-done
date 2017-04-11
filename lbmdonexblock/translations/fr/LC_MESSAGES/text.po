@@ -9,5 +9,5 @@ msgstr ""
 "Language: fr\n"
 
 # lbmdonexblock.html
-msgid "Lesson completed"
+msgid "Done"
 msgstr "Effectué"

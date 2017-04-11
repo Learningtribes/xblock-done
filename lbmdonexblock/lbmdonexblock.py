@@ -41,7 +41,7 @@ class LbmDoneXBlock(XBlock):
 
         # Load the HTML fragment from within the package and fill in the template
         html = self.resource_string("static/html/lbmdonexblock.html")
-        frag = Fragment(html.format(done=self.done, button_text=_("Lesson completed")))
+        frag = Fragment(html.format(done=self.done, button_text=_("Done")))
 
         # Load the CSS fragment
         frag.add_css(self.resource_string("static/css/lbmdonexblock.css"))
