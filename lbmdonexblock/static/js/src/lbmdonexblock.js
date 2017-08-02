@@ -18,6 +18,12 @@ function LbmDoneXBlock(runtime, element, data) {
     var handlerUrl = runtime.handlerUrl(element, 'toggle_button');
 
     $(function ($) {
+        var lbmRed = $('#course-menu').find('> ol > li .active').css('border-bottom-color');
+        if (lbmRed !== undefined) {
+            $('.lbmdonexblock_block').css('background-color', lbmRed);
+        }
+
+
         $('.lbmdonexblock_block', element).click(function() {
             $.ajax({
                 type: "POST",
@@ -26,5 +32,9 @@ function LbmDoneXBlock(runtime, element, data) {
             });
             updateCheck();
         });
+
+
+
+
     });
 }
