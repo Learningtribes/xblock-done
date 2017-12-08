@@ -38,6 +38,7 @@ class LbmDoneXBlock(XBlock):
         """
         LMS view, displayed to the student
         """
+        self.runtime.publish(self, 'grade', {'value': 0, 'max_value': 1.0})
 
         # Load the HTML fragment from within the package and fill in the template
         html = self.resource_string("static/html/lbmdonexblock.html")
