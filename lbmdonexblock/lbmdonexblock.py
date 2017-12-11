@@ -28,6 +28,12 @@ class LbmDoneXBlock(XBlock):
         display_name="Problem Weight"
     )
 
+    def max_score(self):
+        """
+        Return the maximum score possible.
+        """
+        return 1.0
+    
 
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
