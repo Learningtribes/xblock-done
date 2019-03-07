@@ -3,37 +3,95 @@
 import pkg_resources
 
 from xblock.core import XBlock
-from xblock.fields import Scope, Boolean, Float
+from xblock.fields import String, Scope, Dict, Boolean, Float, DateTime
+from xblock.scorable import Score
+
 from xblock.fragment import Fragment
 from django.utils.translation import ugettext as _
+from xblockutils.studio_editable import StudioEditableXBlockMixin
+try:
+    from xmodule.progress import Progress
+except ImportError:
+    pass
+from .mixins import ScorableXBlockMixin
 
-class LbmDoneXBlock(XBlock):
+
+@XBlock.needs('i18n', 'user')
+class LbmDoneXBlock(StudioEditableXBlockMixin, ScorableXBlockMixin, XBlock):
     """
     Shows a toggle which lets learners mark a sequence as done.
     """
 
-    # is this sequence done?
-    done = Boolean(
-        scope = Scope.user_state,
-        default = False
-    )
-
-    has_score = True
-
-    # Defines the number of points each problem is worth.
-    # By default, the problem is worth the sum of the option point values.
-    weight = Float(
+    display_name = String(
+        default="Done",
         scope=Scope.settings,
-        values={"min": 0, "step": .1},
-        display_name="Problem Weight"
+        enforce_type=True,
+        display_name=_("Display Name"),
+        help=_("Display name for this module"),
     )
 
+    due = DateTime(
+        default="2000-01-01T00:00:00.00",
+        scope=Scope.settings,
+        enforce_type=True,
+        display_name=_("Due Date"),
+        help=_("Due Date"),
+    )
+
+    icon_class = String(
+        default='other',
+        scope=Scope.settings,
+        values=("problem", "video", "other"),
+        enforce_type=True,
+        display_name=_("Icon"),
+        help=_("Icon be used in course page")
+    )
+
+    weight = Float(
+        default=1.0,
+        scope=Scope.settings,
+        values={"min": 0, "step": 0.1},
+        enforce_type=True,
+        display_name=_('Weight'),
+        help=_('Relative weight in this course section')
+    )
+
+    done = Boolean(
+        scope=Scope.user_state,
+        default=False
+    )
+    has_score = True
+    editable_fields = ('display_name', 'weight', 'due', 'icon_class')
+
+    def _create_score(self, earn):
+        return Score(raw_possible=self.max_score(), raw_earned=earn)
+
+    # region Runtime functions
     def max_score(self):
-        """
-        Return the maximum score possible.
-        """
         return 1.0
-    
+
+    def allows_rescore(self):
+        return True
+
+    def set_score(self, score):
+        self.done = True
+
+    def get_score(self):
+        return self._create_score(self.max_score()) if self.done else self._create_score(0)
+
+    def calculate_score(self):
+        return self.get_score()
+
+    def has_submitted_answer(self):
+        return self.done
+
+    def get_progress(self):
+        pg = self.max_score() if self.done else 0
+        return Progress(pg, 1)
+
+    # endregion
+
+
 
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
@@ -57,20 +115,19 @@ class LbmDoneXBlock(XBlock):
 
         return frag
 
-    def studio_view(self, context=None):
-        """
-        Studio view accessed when the instructor edits the component
-        """
-
-        # Load the HTML fragment from within the package and fill in the template
-        html = self.resource_string("static/html/lbmdonexblock_edit.html")
-        frag = Fragment(html.format(no_edit_text=_("This XBlock has no editable field.")))
-
-        # Load the CSS fragment
-        frag.add_css(self.resource_string("static/css/lbmdonexblock.css"))
-
-        return frag
-
+    # def studio_view(self, context=None):
+    #     """
+    #     Studio view accessed when the instructor edits the component
+    #     """
+    #
+    #     # Load the HTML fragment from within the package and fill in the template
+    #     html = self.resource_string("static/html/lbmdonexblock_edit.html")
+    #     frag = Fragment(html.format(no_edit_text=_("This XBlock has no editable field.")))
+    #
+    #     # Load the CSS fragment
+    #     frag.add_css(self.resource_string("static/css/lbmdonexblock.css"))
+    #
+    #     return frag
 
     @XBlock.json_handler
     def toggle_button(self, data, suffix=''):
@@ -79,10 +136,8 @@ class LbmDoneXBlock(XBlock):
         with one boolean field: `done`. This will save this in the
         XBlock field, and then issue an appropriate grade.
         """
-        self.done = False if self.done else True
-        grade = 1 if self.done else 0
-
-        self.runtime.publish(self, 'grade', {'value': grade, 'max_value': 1})
+        self.done = not self.done
+        self._publish_grade(self.get_score())
 
     # Change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
