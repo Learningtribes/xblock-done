@@ -23,7 +23,7 @@ class LbmDoneXBlock(StudioEditableXBlockMixin, ScorableXBlockMixin, XBlock):
     """
 
     display_name = String(
-        default="Done",
+        default="Completion",
         scope=Scope.settings,
         enforce_type=True,
         display_name=_("Display Name"),
