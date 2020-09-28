@@ -136,8 +136,12 @@ class LbmDoneXBlock(StudioEditableXBlockMixin, ScorableXBlockMixin, XBlock):
         with one boolean field: `done`. This will save this in the
         XBlock field, and then issue an appropriate grade.
         """
+        return_done = not self.done
         self.done = not self.done
-        self._publish_grade(self.get_score())
+        score = self.get_score()
+        self._publish_grade(score)
+        self.done = return_done
+        return {'done': return_done}
 
     # Change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
