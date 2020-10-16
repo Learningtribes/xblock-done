@@ -23,7 +23,7 @@ class LbmDoneXBlock(StudioEditableXBlockMixin, ScorableXBlockMixin, XBlock):
     """
 
     display_name = String(
-        default="Completion",
+        default=_("Completion"),
         scope=Scope.settings,
         enforce_type=True,
         display_name=_("Display Name"),
@@ -141,6 +141,9 @@ class LbmDoneXBlock(StudioEditableXBlockMixin, ScorableXBlockMixin, XBlock):
         score = self.get_score()
         self._publish_grade(score)
         self.done = return_done
+        completion = 1.0 if return_done else 0.0
+        completion_data = {'completion': completion}
+        self.runtime.publish(self, "completion", completion_data)
         return {'done': return_done}
 
     # Change this to create the scenarios you'd like to see in the
