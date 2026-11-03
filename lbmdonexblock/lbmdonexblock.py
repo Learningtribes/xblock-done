@@ -7,7 +7,7 @@ from xblock.fields import String, Scope, Dict, Boolean, Float, DateTime
 from xblock.scorable import Score
 
 from xblock.fragment import Fragment
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from xblockutils.studio_editable import StudioEditableXBlockMixin
 try:
     from xmodule.progress import Progress
