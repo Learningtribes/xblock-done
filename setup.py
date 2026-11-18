@@ -28,13 +28,10 @@ setup(
     packages=[
         'lbmdonexblock',
     ],
+    python_requires='>=3.10',
     install_requires=[
-        'XBlock>=1.2.9',
-        'lxml',
-        'web-fragments>=0.2.2',
-    ],
-    dependency_links=[
-        'git+https://github.com/Learningtribes/xblock-utils.git@ec95e5e718c4144dc8a43d116a545f210d929667#egg=xblock-utils',
+        'Django>=5.2,<6',
+        'XBlock>=6.1,<7',
     ],
     entry_points={
         'xblock.v1': [

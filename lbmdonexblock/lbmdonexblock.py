@@ -1,6 +1,6 @@
 """Learning By Mooc Done XBlock"""
 
-import pkg_resources
+from importlib.resources import files
 
 from xblock.core import XBlock
 from xblock.fields import String, Scope, Dict, Boolean, Float, DateTime
@@ -8,7 +8,7 @@ from xblock.scorable import Score
 
 from xblock.fragment import Fragment
 from django.utils.translation import gettext as _
-from xblockutils.studio_editable import StudioEditableXBlockMixin
+from xblock.utils.studio_editable import StudioEditableXBlockMixin
 try:
     from xmodule.progress import Progress
 except ImportError:
@@ -95,8 +95,7 @@ class LbmDoneXBlock(StudioEditableXBlockMixin, ScorableXBlockMixin, XBlock):
 
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
-        data = pkg_resources.resource_string(__name__, path)
-        return data.decode("utf8")
+        return files('lbmdonexblock').joinpath(path.lstrip('/')).read_text(encoding='utf-8')
 
     def student_view(self, context=None):
         """
